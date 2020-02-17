@@ -23,6 +23,7 @@ class TabReadModel extends AbstractReadModel
 CREATE TABLE `$tableName` (
   `id` varchar(36) COLLATE utf8_unicode_ci NOT NULL,
   `customerName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `open_amount` varchar(255) COLLATE utf8_unicode_ci default null,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 EOT;

@@ -3,8 +3,6 @@ prooph_service_bus:
         tab_command_bus:
             router:
                 type: 'prooph_service_bus.command_bus_router'
-                routes:
-
     event_buses:
         tab_event_bus:
             plugins:

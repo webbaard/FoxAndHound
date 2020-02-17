@@ -14,7 +14,6 @@ command::open-tab:
     - extends Command
     - implements PayloadContructable
     - use PayloadTrait
-    - create static function forCustomer
     - public function customerName
     - make const for name
     
@@ -33,7 +32,7 @@ command::open-tab:
 1.6. back to the handler
     - add TabCollection as private property
     - create constructor
-    - create byTab:forCustomer in invoke
+    - create with Tab:forCustomer in invoke
     - save Tab in collection
     
 1.7. add handler to servicebus
@@ -54,7 +53,7 @@ Webbaard\Pub\Domain\Tab\CommandHandler\OpenTabHandler:
 1.9. back to tab aggregate 
     - self recordThat
     
-1.10. create event TabIsOpened
+1.10. create event TabWasOpened
     - extends AggregateChanged
     - new static function forCustomer with tabId and customerName
     - return self occur with id and array with customername
@@ -64,11 +63,11 @@ Webbaard\Pub\Domain\Tab\CommandHandler\OpenTabHandler:
     - Add event to recordThat
     - create function stubs from aggregateRoot
     - add tabid as property
-    - create function whenTabIsOpened
+    - create function whenTabWasOpened
     - set tabId
-    - add customerName as propery and set
+    - add customerName as property and set
     - add OpenedOn as property and set
-    - add switch(true) { case $event instanceof TabIsOpened: to apply
+    - add switch(true) { case $event instanceof TabWasOpened: to apply
     
 1.12. create Repository for tab
     - extends AggregateRepository and implements TabCollection
@@ -116,7 +115,7 @@ data::tab:
 
 3.4 Add projection code
 ```bash
-TabIsOpened::class => function($state, TabIsOpened $event) {
+TabWasOpened::class => function($state, TabWasOpened $event) {
     /** @var TabReadModel $readModel */
     $readModel = $this->readModel();
     $readModel->stack('insert', [
@@ -150,7 +149,7 @@ projection_managers:
 
 3.7 add tabFinder to controller
     - add private property
-    - add contructor
+    - add constructor
     - add find all to action
     
 3.8 run 
@@ -158,3 +157,26 @@ projection_managers:
 docker-compose exec php bin/console event-store:projection:run tab_projection
 
 ```
+
+4. Add 'code' to pay and close a tab.
+4.1 add a command and command handler.
+4.2 add a function to the aggregate to set it as paid.
+4.3 add an event and function to replay that event.
+
+5. remove a paid tab from the projection
+5.1 read out the event.
+5.2 use 'remove' to remove it from the projection
+
+6. Add 'code' to add items to a tab.
+6.1 add a command and command handler
+6.2 add a function to add items to the aggregate
+6.3 add an event and function to replay that event.
+6.4 add a function to calculate the total of the outstanding tab
+
+7. Add the total amount outstanding to the projection by using the state.
+7.1 read out the event in the projection 
+7.2 save the total for every tab in the state (don't forget to return the state)
+7.3 save the total in the projection
+
+8. Make the menu event-sourced
+8.1 create a new bounded context and try as you seem fit

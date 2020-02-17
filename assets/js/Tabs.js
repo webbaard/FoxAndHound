@@ -14,7 +14,7 @@ export default function Tabs(props) {
         <ListGroup>
             {tabList.data.map(tab =>
                 <ListGroup.Item key={tab.id} onClick={() => onSelection(tab.id)}>
-                    {tab.customerName}
+                    {tab.customerName} - ({tab.open_amount / 100})
                 </ListGroup.Item>
             )}
         </ListGroup>

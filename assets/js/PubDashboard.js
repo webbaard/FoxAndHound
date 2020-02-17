@@ -16,6 +16,8 @@ export default class PubDashboard extends Component {
 
         this.onSelection = this.onSelection.bind(this);
         this.onOpenTabSubmit = this.onOpenTabSubmit.bind(this);
+        this.onAddToTab = this.onAddToTab.bind(this)
+        this.onPayTab = this.onPayTab.bind(this)
     }
 
     componentDidMount() {
@@ -35,29 +37,38 @@ export default class PubDashboard extends Component {
         })
     }
 
-    onSelection(id) {
+    async onSelection(id) {
         if (id === "") {
             return;
         }
-        axios.get('/tab/' + id + '.json').then(response => {
+        await axios.get('/tab/' + id + '.json').then(response => {
             this.setState({tabDetails: response})
         })
     }
 
-    onOpenTabSubmit(customerName) {
-        axios.post('/api/commands/open-tab', JSON.stringify({
+    async onOpenTabSubmit(customerName) {
+        await axios.post('/api/commands/open-tab', JSON.stringify({
             'customerName' : customerName,
         }));
         this.getTabsData();
     }
 
-    onAddToTab(id, order) {
-        axios.post('/api/commands/add-to-tab', JSON.stringify({
-            'id' : id,
-            'order' : order
+    async onAddToTab(tabId, menuItem, price) {
+        await axios.post('/api/commands/add-to-tab', JSON.stringify({
+            'tab-id' : tabId,
+            'menu-item' : menuItem,
+            'price' : price
         }));
         this.getTabsData();
-        this.onSelection();
+        this.onSelection(tabId);
+    }
+
+    async onPayTab(tabId) {
+        await axios.post('/api/commands/pay-tab', JSON.stringify({
+            'tab-id' : tabId
+        }));
+        this.getTabsData();
+        this.onSelection(tabId);
     }
 
     render() {
@@ -74,6 +85,7 @@ export default class PubDashboard extends Component {
                     tabDetails={tabDetails}
                     menuList={menuList}
                     onAddToTab={this.onAddToTab}
+                    onPayTab={this.onPayTab}
                 />
             </div>
             <div className="col-lg-3 order-last order-lg-last order-sm-first">

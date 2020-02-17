@@ -4,6 +4,7 @@ import logo from '../media/pub.png';
 import '../css/App.css';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import PubDashboard from "./PubDashboard";
+import SettingsDashboard from "./SettingsDashboard";
 
 class App extends Component {
     render() {
@@ -16,6 +17,7 @@ class App extends Component {
                     </header>
                     <Switch>
                         <Route exact path='/' component={PubDashboard} />
+                        <Route exact path='/settings' component={SettingsDashboard} />
                     </Switch>
                 </div>
             </Router>

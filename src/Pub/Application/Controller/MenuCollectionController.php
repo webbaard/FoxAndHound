@@ -13,12 +13,30 @@ final class MenuCollectionController
     public function collectionAction(): Response
     {
         return new JsonResponse([
-            'Whiskey',
-            'Beer',
-            'Gin',
-            'Bourbon',
-            'Wine',
-            'Milk'
+            [
+                'name' => 'Whiskey',
+                'price' => '314'
+            ],
+            [
+                'name' => 'Beer',
+                'price' => '197'
+            ],
+            [
+                'name' => 'Gin',
+                'price' => '212'
+            ],
+            [
+                'name' => 'Bourbon',
+                'price' => '420'
+            ],
+            [
+                'name' => 'Wine',
+                'price' => '309'
+            ],
+            [
+                'name' => 'Milk',
+                'price' => '78'
+            ]
         ]);
     }
 }

@@ -33,5 +33,6 @@ final class CreateEventStreamCommand extends Command
         $this->eventStore->create(new Stream(new StreamName('event_stream'), new \ArrayIterator([])));
 
         $output->writeln('<info>Event stream was created successfully.</info>');
+        return 1;
     }
 }
